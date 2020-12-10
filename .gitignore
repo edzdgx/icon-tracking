@@ -19,3 +19,6 @@ doc/
 .DS_Store
 *.swp
 
+# git #
+.gitattributes
+.gitignore
