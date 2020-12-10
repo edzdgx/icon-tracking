@@ -1,0 +1,21 @@
+# Created by https://www.gitignore.io
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+venv/
+*.pyc
+
+
+# Test dataset
+vid/
+bbox/
+orig_vid/
+
+# Documents and reports
+doc/
+
+### OSX ###
+.DS_Store
+*.swp
+
