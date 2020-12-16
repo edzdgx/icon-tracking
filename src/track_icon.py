@@ -1,14 +1,14 @@
 import cv2
 import utils
 
-in_vid = 'orlando_panel_right_2.mp4'
+in_vid = 'changxun_left_panel_0.mp4'
+out_txt = '../bbox/{0}/{0}.txt'.format(in_vid.split('.')[0])
+print(out_txt)
 
 
 def main():
     # path to input video
-    cap = utils.load_video('vid/' + in_vid)
-    # cap = cv2.VideoCapture(0) # camera input
-    # time.sleep(2)
+    cap = utils.load_video(''.join(['../vid/', in_vid]))
 
     # tracker = cv2.TrackerMedianFlow_create()  # expands after partial occlusion and large motion
     # tracker = cv2.TrackerTLD_create() # too many false positives
@@ -24,7 +24,7 @@ def main():
     tracker.init(img, bbox)
 
     # open file for writing ROI location and frame ID
-    f = open(''.join(['bbox', in_vid.split('.')[0], '.txt']), "w")
+    f = open(out_txt, "w")
     f.write('frame_id, x1, y1, x2, y2\n')
     f.write('{}, {:1.0f}, {:1.0f}, {:1.0f}, {:1.0f}\n'
             .format(frame_id, bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]))
@@ -36,6 +36,9 @@ def main():
             break
 
         success, bbox = tracker.update(img)
+        roi = [bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]]
+        roi_new = utils.narrow_bbox(roi, img)
+        bbox = [roi_new[0], roi_new[1], roi_new[2] - roi_new[0], roi_new[3] - roi_new[1]]
         print(bbox)
 
         if success:
